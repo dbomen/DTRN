@@ -1,3 +1,60 @@
+# DTRN
+Updates or refreshes TODOs in a notion block.
+
+## WHAT YOU NEED DO
+- in the /files directory:
+  - notionAPIkey.txt (put in your notionAPI key)
+  - blockId.txt (put in your blockId)
+- put the refresher.bat file in the Window Task Scheduler
+
+## TODO STRUCTURE
+The app will get all the todo objects in the provided block. Todo blocks above the "divider" block
+in the main block will be unchecked if checked. Any Todo blocks below the "divider" block
+will be deleted if checked. Any unchecked todos will be left alone
+
+Example:
+![alt text](image.png)
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+
+# TODO
+In the future I may add some sort of interface where you can create custom TODOs and stuff, but for now this will do
+This is the plan:
+
 # EXPLAINING
 controller.bat is called to start controller program: compiles and executes Controller.java
 refresher.bat is given to the windows task scheduler and calls the compiles and executes the Refresher.java
@@ -35,21 +92,3 @@ The controller is an interface that lets you create your TODOs. You can show/add
 - `err`: show all errors
   - `err [err_id]`: show error message
 - `h`: display all command options
-
----
----
----
-TODO: (...)
-
-## HOW TO USE
-
-### REQUIREMENTS
-- **Notion API key** (Internal Integration Secret): [how to get a Notion API key](https://developers.notion.com/docs/create-a-notion-integration)
-- **Block ID** of the block you want this application to refresh: [how to get blockId](https://stackoverflow.com/questions/67618449/how-to-get-the-block-id-in-notion-api)
-
-### STEP BY STEP
-- run DTRN_Controller.exe
-  - **only on first time:** input Notion API key
-  - **only first time:** input Block ID
-  - ...
-  - [Windows Task Scheduler Tutorial](https://www.youtube.com/watch?v=HAOP0HZeDJg)
