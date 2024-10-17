@@ -4,7 +4,7 @@ Updates or refreshes TODOs in a notion block.
 ## WHAT YOU NEED DO
 - in the /files directory:
   - notionAPIkey.txt (put in your notionAPI key)
-  - blockId.txt (put in your blockId)
+  - blockId.txt (put in your blockIds)
 - put the refresher.bat file in the Window Task Scheduler
 
 ## TODO STRUCTURE
