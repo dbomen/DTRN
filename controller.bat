@@ -5,5 +5,5 @@ call helperBatFiles/vars.bat
 call helperBatFiles/buildChecker.bat
 
 :: Run the DTRN class
-echo [Refresher] Running %DTRN_CLASS%...
-java -cp %BIN_DIR%;%CLASSPATH% %DTRN_CLASS%
+echo [Controller] Running %CONTROLLER_CLASS%...
+java -cp %BIN_DIR%;%CLASSPATH% %CONTROLLER_CLASS%
