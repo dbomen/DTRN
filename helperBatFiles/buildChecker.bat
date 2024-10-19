@@ -38,8 +38,25 @@ if not exist %LIBS_DIR% (
 :: we check for dependecy files in /libs
 if not exist %LIBS_DIR%/gson.jar (
     echo [BuilderChecker] /%LIBS_DIR%/gson.jar does not exist! Adding dependency...
-    curl -o %LIBS_DIR%/gson.jar https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar
+
+    :: Check if PowerShell is available
+    where powershell > nul
+    if errorlevel 0 (
+        echo PowerShell is available. Using PowerShell to download...
+        powershell -Command "curl -o %LIBS_DIR%\gson.jar https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar"
+    ) else (
+        echo PowerShell is not available. Attempting to use curl directly in CMD...
+        curl -o %LIBS_DIR%\gson.jar https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar
+        if errorlevel 1 (
+            echo Curl command failed! Please manually download gson.jar from the following link:
+            echo https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar
+            echo Make sure to put the .jar file in the /libs folder!
+            exit /b 1
+        )
+    )
 )
+
+:: we check for other files in /libs
 if not exist %LIBS_DIR%/.gitignore (
     echo [BuilderChecker] /%LIBS_DIR%/.gitignore file does not exist! Adding file...
     type nul > %LIBS_DIR%/.gitignore
@@ -63,6 +80,7 @@ if not exist %BIN_DIR%/.gitignore (
     echo * > %BIN_DIR%/.gitignore
     echo !.gitignore >> %BIN_DIR%/.gitignore
 )
+:: ===================================================
 
 :: Compiling Java project
 :: ===================================================
