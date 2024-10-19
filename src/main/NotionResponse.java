@@ -40,7 +40,7 @@ public class NotionResponse {
                 return this.type;
             }
 
-            public Todo getToDo() {
+            public Todo getTodo() {
                 return this.todo;
             }
 

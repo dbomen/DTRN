@@ -2,8 +2,8 @@ package main;
 
 public class FileAccessor {
 
-    private static String NOTION_API_KEY_FILE_PATH = "../../files/notionAPIkey.txt";
-    private static String BLOCK_ID_FILE_PATH = "../../files/blockId.txt";
+    private static String NOTION_API_KEY_FILE_PATH = "files/notionAPIkey.txt";
+    private static String BLOCK_ID_FILE_PATH = "files/blockId.txt";
 
     private Writer writer;
     private Reader reader;

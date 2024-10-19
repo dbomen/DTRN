@@ -14,7 +14,7 @@ public class Reader {
         }
         catch (IOException e) {
 
-            System.out.printf(e.getMessage());
+            System.out.println("[READER]" + e.getMessage());
             return "";
         }
     }

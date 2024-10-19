@@ -14,7 +14,7 @@ public class Writer {
         }
         catch (IOException e) {
 
-            System.out.printf(e.getMessage());
+            System.out.println("[WRITER]" + e.getMessage());
         }
     }
 }
