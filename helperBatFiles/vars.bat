@@ -7,5 +7,5 @@ set BIN_DIR=src/bin
 
 set CLASSPATH=%LIBS_DIR%/gson.jar
 
-set DTRN_CLASS=DTRN
-set CONTROLLER_CLASS=Controller
+set DTRN_CLASS=main.DTRN
+set CONTROLLER_CLASS=main.Controller
