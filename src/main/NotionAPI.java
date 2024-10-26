@@ -31,59 +31,10 @@ public class NotionAPI {
     }
     // ==================================================
     // GET
-    /*
-     * for all the BLOCKIDS - we get the sub-blocks
-     */
-    public List<List<NotionResponse.BlockListResponse.Block>> retrieveBlocks() throws Exception {
-
-        List<List<NotionResponse.BlockListResponse.Block>> responsesBlocks = new ArrayList<>();
-
-        // we iterate through all the BLOCK_IDS
-        for (String BLOCK_ID : this.BLOCK_IDS) {
-
-            // sending the REQUEST and getting the RESPONSE
-            HttpResponse<String> response;
-            try {
-                String url = this.NOTION_API_PREFIX_BLOCKS + BLOCK_ID + "/children?page_size=100";
-
-                HttpClient client = HttpClient.newHttpClient();
-
-                HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(url))
-                    .header("Authorization", "Bearer " + this.NOTION_API_KEY)
-                    .header("Notion-Version", "2022-06-28")
-                    .GET()
-                    .build();
-
-                response = client.send(request, BodyHandlers.ofString());
-            } catch (Exception e) {
-
-                this.doOnErrorGeneral("COULD NOT SEND THE HTTP GET REQUEST!");
-                throw e;
-            }
-
-            // parsing the RESPONSE
-            Gson gson = new Gson();
-            NotionResponse notionResponse = gson.fromJson(response.body(), NotionResponse.class);
-
-            // we check for errors from the NOTION API
-            if (response.statusCode() >= 400 || "error".equals(notionResponse.getObject())) {
-
-                this.doOnErrorResponse(gson.fromJson(response.body(), NotionResponse.ErrorResponse.class));
-                throw new RuntimeException(response.statusCode() + " CODE FROM NOTION API");
-            }
-
-            // we get the blocks from the response and add them
-            List<NotionResponse.BlockListResponse.Block> responseBlocks = gson.fromJson(response.body(), NotionResponse.BlockListResponse.class).getBlocks();
-            responsesBlocks.add(responseBlocks);
-        }
-
-        return responsesBlocks;
-    }
-    /*
+        /*
      * for all the BLOCKIDS - we get the individual block
      */
-    public List<NotionResponse.BlockListResponse.Block> retrieveBlock() throws Exception {
+    public List<NotionResponse.BlockListResponse.Block> retrieveChild_PageBlocks() throws Exception {
 
         List<NotionResponse.BlockListResponse.Block> responsesBlock = new ArrayList<>();
 
@@ -129,14 +80,55 @@ public class NotionAPI {
 
         return responsesBlock;
     }
-    // ==================================================
-    // PATCH
-    public void updateTitle(String blockId, String title) throws Exception {
+    /*
+     * for all the BLOCKIDS - we get the sub-blocks
+     */
+    public List<NotionResponse.BlockListResponse.Block> retrieveChildrenBlocks(String childPageBlockId) throws Exception {
 
         // sending the REQUEST and getting the RESPONSE
         HttpResponse<String> response;
         try {
-            String url = this.NOTION_API_PREFIX_PAGES + blockId;
+            String url = this.NOTION_API_PREFIX_BLOCKS + childPageBlockId + "/children?page_size=100";
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Notion-Version", "2022-06-28")
+                .GET()
+                .build();
+
+            response = client.send(request, BodyHandlers.ofString());
+        } catch (Exception e) {
+
+            this.doOnErrorGeneral("COULD NOT SEND THE HTTP GET REQUEST!");
+            throw e;
+        }
+
+        // parsing the RESPONSE
+        Gson gson = new Gson();
+        NotionResponse notionResponse = gson.fromJson(response.body(), NotionResponse.class);
+
+        // we check for errors from the NOTION API
+        if (response.statusCode() >= 400 || "error".equals(notionResponse.getObject())) {
+
+            this.doOnErrorResponse(gson.fromJson(response.body(), NotionResponse.ErrorResponse.class));
+            throw new RuntimeException(response.statusCode() + " CODE FROM NOTION API");
+        }
+
+        // we get the blocks from the response and add them
+        List<NotionResponse.BlockListResponse.Block> responseBlocks = gson.fromJson(response.body(), NotionResponse.BlockListResponse.class).getBlocks();
+        return responseBlocks;
+    }
+    // ==================================================
+    // PATCH
+    public void updateTitle(String childPageBlockId, String title) throws Exception {
+
+        // sending the REQUEST and getting the RESPONSE
+        HttpResponse<String> response;
+        try {
+            String url = this.NOTION_API_PREFIX_PAGES + childPageBlockId;
 
             HttpClient client = HttpClient.newHttpClient();
 
