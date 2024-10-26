@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.Excluder;
 
 public class NotionAPI {
 
@@ -78,17 +79,52 @@ public class NotionAPI {
     }
     // ==================================================
     // PATCH
-    public boolean updateCounter() {
+    public void updateCounter() throws Exception {
 
-
+        // GET THE BLOCK INFO (GET: retrieve a block)
+        // UPDATE THE BLOCK COUNTER IN TITLE (PATCH: Update a block)
     }
-    public boolean uncheckBlock() {
+    public void uncheckBlock(String todoBlockId) throws Exception {
 
+        // sending the REQUEST and getting the RESPONSE
+        HttpResponse<String> response;
+        try {
+            String url = this.NOTION_API_PREFIX + todoBlockId;
 
+            HttpClient client = HttpClient.newHttpClient();
+
+            // we build the jsonBody, to tell the API to uncheck the todoBlock
+            String jsonBody = "{ \"to_do\": {\"checked\": false} }";
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Content-Type", "application/json")
+                .header("Notion-Version", "2022-06-28")
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+
+            response = client.send(request, BodyHandlers.ofString());
+        } catch (Exception e) {
+
+            this.doOnErrorGeneral("COULD NOT SEND THE HTTP GET REQUEST!");
+            throw e;
+        }
+
+        // parsing the RESPONSE
+        Gson gson = new Gson();
+        NotionResponse notionResponse = gson.fromJson(response.body(), NotionResponse.class);
+
+        // we check for errors from the NOTION API
+        if (response.statusCode() >= 400 || "error".equals(notionResponse.getObject())) {
+
+            this.doOnErrorResponse(gson.fromJson(response.body(), NotionResponse.ErrorResponse.class));
+            throw new RuntimeException(response.statusCode() + " CODE FROM NOTION API");
+        }
     }
     // ==================================================
     // DELETE
-    public boolean deleteBlock() {
+    public void deleteBlock() {
 
 
     }
