@@ -9,15 +9,36 @@ public class Test {
         
         NotionAPI notionAPI = new NotionAPI();
 
-        // List<Block> blocks;
-        // try {
+        List<Block> blocks;
+        try {
 
-        //     blocks = notionAPI.retrieveBlocks().get(0);
-        // } catch (Exception e) {
+            blocks = notionAPI.retrieveBlocks().get(0);
+        } catch (Exception e) {
 
-        //     e.printStackTrace();
-        //     return;
-        // }
+            e.printStackTrace();
+            return;
+        }
+
+        for (Block block : blocks) {
+
+            System.out.print("| type: " + block.getType() + " | ");
+            if (block.getTodo() != null) { // if the block is a todo
+
+                System.out.print("IS TODO | ");
+                if (block.getTodo().isChecked()) { // if the block is checked
+
+                    // delete the block
+                    try {
+                        notionAPI.deleteBlock(block.getId());
+                        System.out.print("IS CHECKED | DELETED! | ");
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+            System.out.println();
+        }
 
         // for (Block block : blocks) {
 
@@ -35,22 +56,24 @@ public class Test {
         //     System.out.println();
         // }
 
-        Block blocks;
-        try {
+        // Block blocks;
+        // try {
 
-            blocks = notionAPI.retrieveBlock().get(0);
-        } catch (Exception e) {
+        //     blocks = notionAPI.retrieveBlock().get(0);
+        // } catch (Exception e) {
 
-            e.printStackTrace();
-            return;
-        }
+        //     e.printStackTrace();
+        //     return;
+        // }
 
-        // we update the title
-        try {
-            notionAPI.updateTitle(blocks.getId(), "TEST");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // // we update the title
+        // try {
+        //     notionAPI.updateTitle(blocks.getId(), "TEST");
+        // } catch (Exception e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+
+        
     }
 }

@@ -10,8 +10,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import main.NotionResponse.BlockListResponse.Block;
-
 public class NotionAPI {
 
     private final String NOTION_API_PREFIX_BLOCKS = "https://api.notion.com/v1/blocks/";
@@ -211,9 +209,39 @@ public class NotionAPI {
     }
     // ==================================================
     // DELETE
-    public void deleteBlock() {
+    public void deleteBlock(String todoBlockId) throws Exception {
 
+        // sending the REQUEST and getting the RESPONSE
+        HttpResponse<String> response;
+        try {
+            String url = this.NOTION_API_PREFIX_BLOCKS + todoBlockId;
 
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Notion-Version", "2022-06-28")
+                .DELETE()
+                .build();
+
+            response = client.send(request, BodyHandlers.ofString());
+        } catch (Exception e) {
+
+            this.doOnErrorGeneral("COULD NOT SEND THE HTTP DELETE REQUEST!");
+            throw e;
+        }
+
+        // parsing the RESPONSE
+        Gson gson = new Gson();
+        NotionResponse notionResponse = gson.fromJson(response.body(), NotionResponse.class);
+
+        // we check for errors from the NOTION API
+        if (response.statusCode() >= 400 || "error".equals(notionResponse.getObject())) {
+
+            this.doOnErrorResponse(gson.fromJson(response.body(), NotionResponse.ErrorResponse.class));
+            throw new RuntimeException(response.statusCode() + " CODE FROM NOTION API");
+        }
     }
     // ==================================================
 
