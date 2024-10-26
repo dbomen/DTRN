@@ -44,7 +44,13 @@ public class Test {
             e.printStackTrace();
             return;
         }
-        System.out.println(blocks.getId());
-        System.out.println(blocks.getTitle().getTitleText());
+
+        // we update the title
+        try {
+            notionAPI.updateTitle(blocks.getId(), "TEST");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

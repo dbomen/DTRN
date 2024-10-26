@@ -10,9 +10,12 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import main.NotionResponse.BlockListResponse.Block;
+
 public class NotionAPI {
 
-    private final String NOTION_API_PREFIX = "https://api.notion.com/v1/blocks/";
+    private final String NOTION_API_PREFIX_BLOCKS = "https://api.notion.com/v1/blocks/";
+    private final String NOTION_API_PREFIX_PAGES = "https://api.notion.com/v1/pages/";
 
     private FileAccessor fileAccessor;
     private final String NOTION_API_KEY;
@@ -43,7 +46,7 @@ public class NotionAPI {
             // sending the REQUEST and getting the RESPONSE
             HttpResponse<String> response;
             try {
-                String url = this.NOTION_API_PREFIX + BLOCK_ID + "/children?page_size=100";
+                String url = this.NOTION_API_PREFIX_BLOCKS + BLOCK_ID + "/children?page_size=100";
 
                 HttpClient client = HttpClient.newHttpClient();
 
@@ -92,7 +95,7 @@ public class NotionAPI {
             // sending the REQUEST and getting the RESPONSE
             HttpResponse<String> response;
             try {
-                String url = this.NOTION_API_PREFIX + BLOCK_ID;
+                String url = this.NOTION_API_PREFIX_BLOCKS + BLOCK_ID;
 
                 HttpClient client = HttpClient.newHttpClient();
 
@@ -130,16 +133,50 @@ public class NotionAPI {
     }
     // ==================================================
     // PATCH
-    public void updateCounter() throws Exception {
+    public void updateTitle(String blockId, String title) throws Exception {
 
-        // UPDATE THE BLOCK COUNTER IN TITLE (PATCH: Update a block)
+        // sending the REQUEST and getting the RESPONSE
+        HttpResponse<String> response;
+        try {
+            String url = this.NOTION_API_PREFIX_PAGES + blockId;
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            // we build the jsonBody, to tell the API to change the title
+            String jsonBody = "{ \"properties\": { \"Name\": {\"title\": [{ \"text\": { \"content\": \"" + title + "\" } }] } } }";
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Content-Type", "application/json")
+                .header("Notion-Version", "2022-06-28")
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+
+            response = client.send(request, BodyHandlers.ofString());
+        } catch (Exception e) {
+
+            this.doOnErrorGeneral("COULD NOT SEND THE HTTP PATCH REQUEST!");
+            throw e;
+        }
+
+        // parsing the RESPONSE
+        Gson gson = new Gson();
+        NotionResponse notionResponse = gson.fromJson(response.body(), NotionResponse.class);
+
+        // we check for errors from the NOTION API
+        if (response.statusCode() >= 400 || "error".equals(notionResponse.getObject())) {
+
+            this.doOnErrorResponse(gson.fromJson(response.body(), NotionResponse.ErrorResponse.class));
+            throw new RuntimeException(response.statusCode() + " CODE FROM NOTION API");
+        }
     }
     public void uncheckBlock(String todoBlockId) throws Exception {
 
         // sending the REQUEST and getting the RESPONSE
         HttpResponse<String> response;
         try {
-            String url = this.NOTION_API_PREFIX + todoBlockId;
+            String url = this.NOTION_API_PREFIX_BLOCKS + todoBlockId;
 
             HttpClient client = HttpClient.newHttpClient();
 
@@ -157,7 +194,7 @@ public class NotionAPI {
             response = client.send(request, BodyHandlers.ofString());
         } catch (Exception e) {
 
-            this.doOnErrorGeneral("COULD NOT SEND THE HTTP GET REQUEST!");
+            this.doOnErrorGeneral("COULD NOT SEND THE HTTP PATCH REQUEST!");
             throw e;
         }
 
