@@ -1,5 +1,13 @@
 @echo off
 
+:: we check if the value in %1 (first argument) is correct, as we do not want this file
+:: to be run manually. It should be called from either the controller.bat or refresher.bat files
+:: as they assert the correct drive and path
+if "%1" neq "DTRN_SUPER_SECRET" (
+    echo "You should not run this script directly. Run controller.bat or refresher.bat files instead!"
+    exit /b
+)
+
 :: /file checking
 :: ===================================================
 :: we check for /files
