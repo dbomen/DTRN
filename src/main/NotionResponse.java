@@ -32,6 +32,9 @@ public class NotionResponse {
             @SerializedName("to_do") // for blocks that are Todos
             private Todo todo;
 
+            @SerializedName("child_page") // for upper blocks (to get title)
+            private Title title;
+
             public String getId() {
                 return this.id;
             }
@@ -44,7 +47,11 @@ public class NotionResponse {
                 return this.todo;
             }
 
-            // 1.2) INNER
+            public Title getTitle() {
+                return this.title;
+            }
+
+            // 1.2) INNER (Todo)
             public static class Todo {
 
                 @SerializedName("checked")
@@ -52,6 +59,17 @@ public class NotionResponse {
 
                 public boolean isChecked() {
                     return this.checked;
+                }
+            }
+
+            // 1.3) INNER (Title)
+            public static class Title {
+
+                @SerializedName("title")
+                private String titleText;
+
+                public String getTitleText() {
+                    return this.titleText;
                 }
             }
         }
