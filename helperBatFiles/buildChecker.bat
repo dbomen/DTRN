@@ -1,5 +1,8 @@
 @echo off
 
+:: enables us to build a string containing all .java files
+setlocal enabledelayedexpansion
+
 :: we check if the value in %1 (first argument) is correct, as we do not want this file
 :: to be run manually. It should be called from either the controller.bat or refresher.bat files
 :: as they assert the correct drive and path
@@ -101,8 +104,16 @@ if errorlevel 1 (
 
 echo [BuilderChecker] Compiling Java project...
 
+:: we recursively get all the .java files within the %SRC_MAIN_DIR%
+set JAVA_FILES=
+for /r %SRC_MAIN_DIR% %%f in (*.java) do (
+    @REM !VAR! is the syntax for delayed expension
+    @REM we do this instead of compile each file seperatelly for speed!
+    @REM compiling each file individually would be slow
+    set JAVA_FILES=!JAVA_FILES! %%f
+)
 :: we compile all .java files
-javac -cp %CLASSPATH% -d %BIN_DIR% %SRC_MAIN_DIR%/*.java
+javac -cp %CLASSPATH% -d %BIN_DIR% %JAVA_FILES%
 :: we check if the compilation was successful
 if errorlevel 1 (
     echo [BuilderChecker] Compilation failed!

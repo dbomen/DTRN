@@ -28,7 +28,7 @@ public class CommandRegistry {
     public Command getCommand(String commandKey) throws RuntimeException {
 
         Command command =  this.commandMap.get(commandKey);
-        if (command == null)  throw new RuntimeException("COMMAND DOES NOT EXIST");
+        if (command == null)  throw new RuntimeException("[APP] COMMAND DOES NOT EXIST");
         return command;
     }
 }

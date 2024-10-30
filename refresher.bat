@@ -2,6 +2,8 @@
 :: makes sure that the script is run in the same directory as the refresher.bat file
 cd /d %~dp0
 
+set SCRIPT_DIR=%~dp0
+
 echo [Refresher] STARTING DAILY REFRESHER
 
 :: SETUP
