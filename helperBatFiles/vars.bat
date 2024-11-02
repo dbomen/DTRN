@@ -8,11 +8,11 @@ if "%1" neq "DTRN_SUPER_SECRET" (
     exit /b
 )
 
-set FILES_DIR=%SCRIPT_DIR%files
-set LIBS_DIR=%SCRIPT_DIR%libs
+set FILES_DIR=files
+set LIBS_DIR=libs
 
-set SRC_MAIN_DIR=%SCRIPT_DIR%src\main
-set BIN_DIR=%SCRIPT_DIR%src\bin
+set SRC_MAIN_DIR=src\main
+set BIN_DIR=src\bin
 
 set CLASSPATH=%LIBS_DIR%\gson.jar
 

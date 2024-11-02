@@ -110,7 +110,7 @@ for /r %SRC_MAIN_DIR% %%f in (*.java) do (
     @REM !VAR! is the syntax for delayed expension
     @REM we do this instead of compile each file seperatelly for speed!
     @REM compiling each file individually would be slow
-    set JAVA_FILES=!JAVA_FILES! %%f
+    set JAVA_FILES=!JAVA_FILES! "%%f"
 )
 :: we compile all .java files
 javac -cp %CLASSPATH% -d %BIN_DIR% %JAVA_FILES%
