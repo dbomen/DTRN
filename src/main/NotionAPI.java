@@ -32,7 +32,7 @@ public class NotionAPI {
             this.BLOCK_IDS = this.fileAccessor.get_BLOCK_IDS();
         } catch (IOException e) {
 
-            throw new RuntimeException("GETTING NOTION_API_KEY AND BLOCK_IDS ERROR | ERROR MESSAGE:" + e.getMessage());
+            throw new RuntimeException("GETTING NOTION_API_KEY AND BLOCK_IDS ERROR | ERROR MESSAGE: " + e.getStackTrace());
         }
     }
     // ==================================================
