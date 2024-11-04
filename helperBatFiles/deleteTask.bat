@@ -16,3 +16,5 @@ if not "%1"=="am_admin" (
 )
 
 schtasks /delete /tn "DTRN Refresher" /f
+
+pause
