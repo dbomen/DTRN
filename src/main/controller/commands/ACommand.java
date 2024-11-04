@@ -1,6 +1,8 @@
 package main.controller.commands;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import main.FileAccessor;
 import main.ANSIColors.ANSIColorStringHandler;
@@ -27,7 +29,11 @@ public class ACommand implements Command {
             fileAccessor.set_NOTION_API_KEY(args[0]);
         } catch (IOException e) {
 
-            throw new IOException("[ACommand] DID NOT ADD NOTION_API_KEY | " + e.getStackTrace());
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+
+            throw new IOException("[ACommand] DID NOT ADD NOTION_API_KEY | " + sw.toString());
         }
 
         Command.displayBorderTop();

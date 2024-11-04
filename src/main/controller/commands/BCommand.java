@@ -1,6 +1,8 @@
 package main.controller.commands;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import main.FileAccessor;
 import main.ANSIColors.ANSIColorStringHandler;
@@ -27,7 +29,11 @@ public class BCommand implements Command {
             fileAccessor.set_BLOCK_IDS(args[0]);
         } catch (IOException e) {
 
-            throw new IOException("[BCommand] DID NOT ADD BLOCK_IDS | " + e.getStackTrace());
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+
+            throw new IOException("[BCommand] DID NOT ADD BLOCK_IDS | " + sw.toString());
         }
 
         Command.displayBorderTop();

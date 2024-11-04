@@ -1,6 +1,8 @@
 package main.controller.commands;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import main.FileAccessor;
 import main.ANSIColors.ANSIColorStringHandler;
@@ -28,7 +30,11 @@ public class SCommand implements Command {
             blockIds = fileAccessor.get_BLOCK_IDS();
         } catch (IOException e) {
 
-            throw new IOException("[SCommand] COULD NOT GET BLOCK_IDS | " + e.getStackTrace());
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+
+            throw new IOException("[SCommand] COULD NOT GET BLOCK_IDS | " + sw.toString());
         }
         String messageInColor = (blockIds.length > 1) ? "BLOCK_IDS" : "BLOCK_ID";
         

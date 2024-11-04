@@ -1,6 +1,8 @@
 package main;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -32,7 +34,11 @@ public class NotionAPI {
             this.BLOCK_IDS = this.fileAccessor.get_BLOCK_IDS();
         } catch (IOException e) {
 
-            throw new RuntimeException("GETTING NOTION_API_KEY AND BLOCK_IDS ERROR | ERROR MESSAGE: " + e.getStackTrace());
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+
+            throw new RuntimeException("GETTING NOTION_API_KEY AND BLOCK_IDS ERROR | ERROR MESSAGE: " + sw.toString());
         }
     }
     // ==================================================
