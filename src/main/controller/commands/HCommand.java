@@ -4,10 +4,16 @@ import main.ANSIColors.ANSIColorStringHandler;
 import main.ANSIColors.ColorCodes;
 
 public class HCommand implements Command {
+
+    ANSIColorStringHandler ansiColorStringHandler;
+
+    public HCommand() {
+
+        ansiColorStringHandler = new ANSIColorStringHandler();
+    }
+
     @Override
     public void execute(String[] args) {
-
-        ANSIColorStringHandler ansiColorStringHandler = new ANSIColorStringHandler();
 
         Command.displayBorderTop();
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("NOTE:", ColorCodes.RED) + " " + ansiColorStringHandler.getInColor("This is a Contoller program that makes using the Refresher program easier. You can do all the stuff manually yourself, but I recommend you use this program if you do not know what you are doing!", ColorCodes.YELLOW));

@@ -18,6 +18,8 @@ public class Controller {
 
         String[] parts = input.split("\\s+"); // splits by whitespace
 
+        if (parts.length <= 0)  return;
+
         // we get the command name
         String commandName = parts[0];
         // we get the command args
@@ -46,7 +48,8 @@ public class Controller {
                 System.out.print(">");
 
                 String parts = sc.nextLine();
-                controller.processInput(parts);
+                if (parts.length() > 0)
+                    controller.processInput(parts);
             }
         } catch (Exception e) {
 
