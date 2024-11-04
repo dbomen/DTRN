@@ -3,7 +3,7 @@ package main.controller.commands;
 import main.ANSIColors.ANSIColorStringHandler;
 
 public interface Command {
-    void execute(String[] args);
+    void execute(String[] args) throws Exception;
 
     // static methods that are called to display the "border"
     final int borderWidth = 100;

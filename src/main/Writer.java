@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Writer {
 
-    public void write(String fileName, String content) {
+    public void write(String fileName, String content) throws IOException {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, false))) {
 
@@ -14,7 +14,7 @@ public class Writer {
         }
         catch (IOException e) {
 
-            System.out.println("[WRITER]" + e.getMessage());
+            throw new IOException("[WRITER]" + e.getMessage());
         }
     }
 }

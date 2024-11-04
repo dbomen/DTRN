@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -23,11 +24,16 @@ public class NotionAPI {
 
         this.fileAccessor = new FileAccessor();
 
-        // we get the NOTION_API_KEY
-        this.NOTION_API_KEY = this.fileAccessor.get_NOTION_API_KEY();
-        
-        // we get the BLOCK_IDS
-        this.BLOCK_IDS = this.fileAccessor.get_BLOCK_IDS();
+        try {
+            // we get the NOTION_API_KEY
+            this.NOTION_API_KEY = this.fileAccessor.get_NOTION_API_KEY();
+            
+            // we get the BLOCK_IDS
+            this.BLOCK_IDS = this.fileAccessor.get_BLOCK_IDS();
+        } catch (IOException e) {
+
+            throw new RuntimeException("GETTING NOTION_API_KEY AND BLOCK_IDS ERROR | ERROR MESSAGE:" + e.getMessage());
+        }
     }
     // ==================================================
     // GET

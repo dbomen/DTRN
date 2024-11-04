@@ -13,7 +13,7 @@ public class InvalidCommand implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args) throws Exception {
         
         Command.displayBorderTop();
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("[CONTROLLER]", ColorCodes.RED) + " " + "INVALID COMMAND!");

@@ -1,9 +1,12 @@
 package main.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
 import main.controller.commands.Command;
+import main.controller.commands.ErrorCommand;
 
 public class Controller {
     
@@ -28,7 +31,19 @@ public class Controller {
         // we execute the command with its arguments
         Command command;
         command = this.commandRegistry.getCommand(commandName);
-        command.execute(args);
+        
+        try {
+            command.execute(args);
+        } catch (Exception e) {
+            // if there was an error command we execute the ErrorCommand() class exectue method with the message
+            // the stackTrace as String is the argument
+
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+
+            new ErrorCommand().execute(new String[]{sw.toString()});
+        }
     }
 
     public static void main(String[] args) {

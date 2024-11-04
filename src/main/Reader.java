@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Reader {
 
-    public String read(String fileName) {
+    public String read(String fileName) throws IOException {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 
@@ -14,8 +14,7 @@ public class Reader {
         }
         catch (IOException e) {
 
-            System.out.println("[READER]" + e.getMessage());
-            return "";
+            throw new IOException("[READER]" + e.getMessage());
         }
     }
 }
