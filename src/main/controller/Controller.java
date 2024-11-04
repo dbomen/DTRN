@@ -25,12 +25,8 @@ public class Controller {
 
         // we execute the command with its arguments
         Command command;
-        try {
-            command = this.commandRegistry.getCommand(commandName);
-            command.execute(args);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        command = this.commandRegistry.getCommand(commandName);
+        command.execute(args);
     }
 
     public static void main(String[] args) {
@@ -46,6 +42,9 @@ public class Controller {
         try {
             while (true) {
                 
+                // we show the ">" to indicate to the user to write
+                System.out.print(">");
+
                 String parts = sc.nextLine();
                 controller.processInput(parts);
             }

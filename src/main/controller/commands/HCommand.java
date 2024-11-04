@@ -24,6 +24,8 @@ public class HCommand implements Command {
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("s", ColorCodes.RED) + " " + "shows the current Notion API_KEY and the Notion blockId or blockIds");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("activate", ColorCodes.RED) + " " + "activates the Refresher program, which creates a task in the Windows task scheduler that runs the Refresher program every day or if the cycle is missed, it does so on PC startup");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("deactivate", ColorCodes.RED) + " " + "deactivates the Refresher program, which deletes the task from the Windows task scheduler");
+        Command.displayBorderWithin("");
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("EXIT WITH: [CTRL+C and CTRL+C] or [CTRL+C and \"y\" and ENTER]", ColorCodes.RED));
         Command.displayBorderBottom();
     }
 }

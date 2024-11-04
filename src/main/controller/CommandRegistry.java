@@ -9,6 +9,7 @@ import main.controller.commands.BCommand;
 import main.controller.commands.Command;
 import main.controller.commands.DeactivateCommand;
 import main.controller.commands.HCommand;
+import main.controller.commands.InvalidCommand;
 import main.controller.commands.SCommand;
 
 public class CommandRegistry {
@@ -25,10 +26,10 @@ public class CommandRegistry {
         commandMap.put("deactivate", new DeactivateCommand());
     }
 
-    public Command getCommand(String commandKey) throws RuntimeException {
+    public Command getCommand(String commandKey) {
 
         Command command =  this.commandMap.get(commandKey);
-        if (command == null)  throw new RuntimeException("[APP] COMMAND DOES NOT EXIST");
+        if (command == null)  return new InvalidCommand();
         return command;
     }
 }
