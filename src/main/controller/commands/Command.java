@@ -50,10 +50,31 @@ public interface Command {
 
         for (; wordsIndex < words.length; wordsIndex++) {
 
+            // word setup
             String newWord = words[wordsIndex];
             long newWordLength = (ansiColorStringHandler.isANSIString(newWord)) 
                 ? ansiColorStringHandler.getANSIStringLength(newWord)
                 : newWord.length();
+
+            // if the 1st word itself is too long to be printed inside a row, this can cause
+            // endless recursion calls, because the message will always be too long, resulting in a
+            // Stack overflow error. In this case we have to print the first <maxPrintedChars>
+            // characters in the word and continue in a new row
+            if (wordsIndex == 0 && newWordLength + 1 > maxPrintedChars) {
+
+                if (printedChars != 0)  throw new RuntimeException("printedChars should =0 here! Understanding issue!");
+
+                // we print as many chars from the "too long" word as we can
+                System.out.print(newWord.substring(0, maxPrintedChars - 1) + " ");
+                printedChars += maxPrintedChars;
+
+                // we continue in another row
+                // we have to remove the 1st (aka printed word from the message)
+                words[wordsIndex] = newWord.substring(maxPrintedChars);
+
+                messageTooLong = true;
+                break;
+            }
 
             if (printedChars + newWordLength + 1 > maxPrintedChars) { // +1 to count the space
 
