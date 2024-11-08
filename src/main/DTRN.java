@@ -14,7 +14,7 @@ public class DTRN {
         
         private Block pageBlock;
         private List<Block> pageBlock_childrenBlocks;
-        private boolean underLine;
+        private boolean aboveLine;
         private int numberOfUnchecks;
 
         public PageBlock_ChildrenBlockHandler(Block pageBlock, List<Block> pageBlock_childrenBlocks, NotionAPI notionAPI) {
@@ -24,8 +24,8 @@ public class DTRN {
             this.pageBlock = pageBlock;
             this.pageBlock_childrenBlocks = pageBlock_childrenBlocks;
 
-            // contorl variables
-            this.underLine = false; // keeps track of if we are under the "divider" block
+            // control variables
+            this.aboveLine = true; // keeps track of if we are above the "divider" block
             this.numberOfUnchecks = 0; // keeps track of how many unchecks we have, to then update the counter number
         }
 
@@ -90,8 +90,8 @@ public class DTRN {
                         return;
                     }
 
-                    // if we are under the line we delete the block 
-                    if (underLine) {
+                    // if we are above the line we delete the block 
+                    if (aboveLine) {
                         try {
                             notionAPI.deleteBlock(childrenBlock.getId());
                         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class DTRN {
                 // if the block is a Divider
                 else if ("divider".equals(childrenBlock.getType())) {
 
-                    underLine = true;
+                    aboveLine = false;
                 }
             }
         }
