@@ -35,6 +35,9 @@ public class NotionResponse {
             @SerializedName("child_page") // for upper blocks (to get title)
             private Title title;
 
+            @SerializedName("has_children")
+            private boolean hasChildren;
+
             public String getId() {
                 return this.id;
             }
@@ -49,6 +52,10 @@ public class NotionResponse {
 
             public Title getTitle() {
                 return this.title;
+            }
+
+            public boolean isHasChildren() {
+                return this.hasChildren;
             }
 
             // 1.2) INNER (Todo)

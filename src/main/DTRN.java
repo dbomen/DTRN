@@ -8,38 +8,76 @@ import main.NotionResponse.BlockListResponse.Block;
 
 public class DTRN {
 
-    public static void main(String[] args) {
+    public static class PageBlock_ChildrenBlockHandler {
 
-        NotionAPI notionAPI = new NotionAPI();
+        private NotionAPI notionAPI;
+        
+        private Block pageBlock;
+        private List<Block> pageBlock_childrenBlocks;
+        private boolean underLine;
+        private int numberOfUnchecks;
 
-        // we get the child_page blocks
-        List<Block> child_pageBlocks;
-        try {
-            child_pageBlocks = notionAPI.retrieveChild_PageBlocks();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
+        public PageBlock_ChildrenBlockHandler(Block pageBlock, List<Block> pageBlock_childrenBlocks, NotionAPI notionAPI) {
+
+            this.notionAPI = notionAPI;
+
+            this.pageBlock = pageBlock;
+            this.pageBlock_childrenBlocks = pageBlock_childrenBlocks;
+
+            // contorl variables
+            this.underLine = false; // keeps track of if we are under the "divider" block
+            this.numberOfUnchecks = 0; // keeps track of how many unchecks we have, to then update the counter number
         }
 
-        // we iterate the child_page blocks
-        for (Block child_pageBlock : child_pageBlocks) {
-            
-            // we setup the control variables
-            boolean underLine = false; // keeps track of if we are under the "divider" block
-            int numberOfUnchecks = 0; // keeps track of how many unchecks we have, to then update the counter number
+        /*
+         * main handler
+         */
+        public void handlePageBlock() {
 
-            // we get the childrenBlocks
-            List<Block> childrenBlocks;
+            handleChildrenBlocks(this.pageBlock_childrenBlocks);
+            
+            // 2) UPDATING THE COUNTER (Valid title: "TITLE_NAME (COUNTER_NUMBER)", 
+            //                                       " (COUNTER_NUMBER)" is appended if it does not exist)
+            // we get the child_pageBlock title
+            String currentTitle = this.pageBlock.getTitle().getTitleText();
+
+            // we parse the currentCounter if it exists, otherwise we add the counter
+            // and then we update the title
             try {
-                childrenBlocks = notionAPI.retrieveChildrenBlocks(child_pageBlock.getId());
+                String newTitle = getNewTitle(currentTitle, numberOfUnchecks);
+                notionAPI.updateTitle(this.pageBlock.getId(), newTitle);
             } catch (Exception e) {
                 e.printStackTrace();
-                return;
+                System.out.println("[DTRN] PROBLEM WITH GETTING NEW TITLE. WILL NOT CHANGE TITLE AND MOVING ON");
             }
+        }
+
+        /*
+         * iterates the childrenBlocks and correctly handles them with the NotionAPI calls
+         */
+        public void handleChildrenBlocks(List<Block> childrenBlocks) {
 
             // 1) HANDLING THE CHILDREN BLOCKS
             // we iterate the childrenBlocks
             for (Block childrenBlock : childrenBlocks) {
+
+                // Ce ima childBlock "children" potem gremo rekurzivno handlat se njih
+                // ko handlamo njih se handlamo "parent" block do konca
+                // ======================
+                if (childrenBlock.isHasChildren()) {
+
+                    List<Block> test;
+                    try {
+                        test = notionAPI.retrieveChildrenBlocks(childrenBlock.getId());
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+                        return;
+                    }
+
+                    this.handleChildrenBlocks(test);
+                }
+                // ======================
 
                 // if the block is a Todo & isChecked
                 if (childrenBlock.getTodo() != null && childrenBlock.getTodo().isChecked()) {
@@ -71,21 +109,38 @@ public class DTRN {
                     underLine = true;
                 }
             }
+        }
+    }
 
-            // 2) UPDATING THE COUNTER (Valid title: "TITLE_NAME (COUNTER_NUMBER)", 
-            //                                       " (COUNTER_NUMBER)" is appended if it does not exist)
-            // we get the child_pageBlock title
-            String currentTitle = child_pageBlock.getTitle().getTitleText();
 
-            // we parse the currentCounter if it exists, otherwise we add the counter
-            // and then we update the title
+    public static void main(String[] args) {
+
+        NotionAPI notionAPI = new NotionAPI();
+
+        // we get the child_page blocks
+        List<Block> child_pageBlocks;
+        try {
+            child_pageBlocks = notionAPI.retrieveChild_PageBlocks();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // we iterate the child_page blocks
+        for (Block child_pageBlock : child_pageBlocks) {
+            
+            // we get the childrenBlocks
+            List<Block> childrenBlocks;
             try {
-                String newTitle = getNewTitle(currentTitle, numberOfUnchecks);
-                notionAPI.updateTitle(child_pageBlock.getId(), newTitle);
+                childrenBlocks = notionAPI.retrieveChildrenBlocks(child_pageBlock.getId());
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("[DTRN] PROBLEM WITH GETTING NEW TITLE. WILL NOT CHANGE TITLE AND MOVING ON");
+                return;
             }
+
+            PageBlock_ChildrenBlockHandler pageBlock_ChildrenBlockHandler = new PageBlock_ChildrenBlockHandler(
+                child_pageBlock, childrenBlocks, notionAPI);
+            pageBlock_ChildrenBlockHandler.handlePageBlock();
         }
     }
 
