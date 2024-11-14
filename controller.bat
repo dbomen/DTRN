@@ -8,4 +8,5 @@ call helperBatFiles/buildChecker.bat DTRN_SUPER_SECRET
 
 :: Run the DTRN class
 echo [Controller] Running %CONTROLLER_CLASS%...
-java -cp %BIN_DIR%;%CLASSPATH% %CONTROLLER_CLASS%
+@REM java -cp %BIN_DIR%;%CLASSPATH% %CONTROLLER_CLASS%
+java -cp %BIN_DIR%;%CLASSPATH% main.Settings.Test
