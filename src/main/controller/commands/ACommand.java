@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import main.FileAccessor;
 import main.ANSIColors.ANSIColorStringHandler;
 import main.ANSIColors.ColorCodes;
+import main.Settings.SettingsParser;
 
 public class ACommand implements Command {
 
     ANSIColorStringHandler ansiColorStringHandler;
-    FileAccessor fileAccessor;
+    SettingsParser settingsParser;
 
     public ACommand() {
 
         ansiColorStringHandler = new ANSIColorStringHandler();
-        fileAccessor = new FileAccessor();
+        settingsParser = new SettingsParser();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ACommand implements Command {
             throw new RuntimeException("NO ARGUMENT PROVIDED! PLEASE PROVIDE THE ARGUMENT:<API_KEY>! CORRECT USAGE: \"a <API_KEY>\"");
 
         try {
-            fileAccessor.set_NOTION_API_KEY(args[0]);
+            settingsParser.set_NOTION_API_KEY(args[0]);
         } catch (IOException e) {
 
             StringWriter sw = new StringWriter();

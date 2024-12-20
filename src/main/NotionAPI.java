@@ -1,8 +1,5 @@
 package main;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -13,37 +10,24 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import main.Settings.SettingsJson.BlockId;
+import main.Settings.SettingsParser;
+
 public class NotionAPI {
 
     private final String NOTION_API_PREFIX_BLOCKS = "https://api.notion.com/v1/blocks/";
     private final String NOTION_API_PREFIX_PAGES = "https://api.notion.com/v1/pages/";
 
-    private FileAccessor fileAccessor;
-    private final String NOTION_API_KEY;
-    private final String[] BLOCK_IDS;
+    private final SettingsParser settingsParser;
 
     public NotionAPI() {
 
-        this.fileAccessor = new FileAccessor();
-
-        try {
-            // we get the NOTION_API_KEY
-            this.NOTION_API_KEY = this.fileAccessor.get_NOTION_API_KEY();
-            
-            // we get the BLOCK_IDS
-            this.BLOCK_IDS = this.fileAccessor.get_BLOCK_IDS();
-        } catch (IOException e) {
-
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-
-            throw new RuntimeException("GETTING NOTION_API_KEY AND BLOCK_IDS ERROR | ERROR MESSAGE: " + sw.toString());
-        }
+        this.settingsParser = new SettingsParser();
     }
+
     // ==================================================
     // GET
-        /*
+    /*
      * for all the BLOCKIDS - we get the individual block
      */
     public List<NotionResponse.BlockListResponse.Block> retrieveChild_PageBlocks() throws Exception {
@@ -51,18 +35,18 @@ public class NotionAPI {
         List<NotionResponse.BlockListResponse.Block> responsesBlock = new ArrayList<>();
 
         // we iterate through all the BLOCK_IDS
-        for (String BLOCK_ID : this.BLOCK_IDS) {
+        for (BlockId BLOCK_ID : this.settingsParser.getBlockIds()) {
 
             // sending the REQUEST and getting the RESPONSE
             HttpResponse<String> response;
             try {
-                String url = this.NOTION_API_PREFIX_BLOCKS + BLOCK_ID;
+                String url = this.NOTION_API_PREFIX_BLOCKS + BLOCK_ID.getId();
 
                 HttpClient client = HttpClient.newHttpClient();
 
                 HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(url))
-                    .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                    .header("Authorization", "Bearer " + this.settingsParser.getNotionAPIKey())
                     .header("Notion-Version", "2022-06-28")
                     .GET()
                     .build();
@@ -106,7 +90,7 @@ public class NotionAPI {
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(url))
-                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Authorization", "Bearer " + this.settingsParser.getNotionAPIKey())
                 .header("Notion-Version", "2022-06-28")
                 .GET()
                 .build();
@@ -149,7 +133,7 @@ public class NotionAPI {
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(url))
-                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Authorization", "Bearer " + this.settingsParser.getNotionAPIKey())
                 .header("Content-Type", "application/json")
                 .header("Notion-Version", "2022-06-28")
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonBody))
@@ -187,7 +171,7 @@ public class NotionAPI {
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(url))
-                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Authorization", "Bearer " + this.settingsParser.getNotionAPIKey())
                 .header("Content-Type", "application/json")
                 .header("Notion-Version", "2022-06-28")
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonBody))
@@ -224,7 +208,7 @@ public class NotionAPI {
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(url))
-                .header("Authorization", "Bearer " + this.NOTION_API_KEY)
+                .header("Authorization", "Bearer " + this.settingsParser.getNotionAPIKey())
                 .header("Notion-Version", "2022-06-28")
                 .DELETE()
                 .build();

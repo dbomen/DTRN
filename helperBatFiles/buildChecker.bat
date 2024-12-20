@@ -21,13 +21,10 @@ if not exist %FILES_DIR% (
 )
 
 :: we check for files in /files
-if not exist %FILES_DIR%/blockId.txt (
-    echo [BuilderChecker] /%FILES_DIR%/blockId.txt file does not exist! Adding file...
-    type nul > %FILES_DIR%/blockId.txt
-)
-if not exist %FILES_DIR%/notionAPIkey.txt (
-    echo [BuilderChecker] /%FILES_DIR%/notionAPIkey.txt file does not exist! Adding file...
-    type nul > %FILES_DIR%/notionAPIkey.txt
+if not exist %FILES_DIR%/DTRNSettings.json (
+    echo [BuilderChecker] /%FILES_DIR%/DTRNSettings.json file does not exist! Adding file...
+    type nul > %FILES_DIR%/DTRNSettings.json
+    echo {"run_once":1, "blockIds":[], "notionAPIKey":-1} > %FILES_DIR%/DTRNSettings.json
 )
 if not exist %FILES_DIR%/.gitignore (
     echo [BuilderChecker] /%FILES_DIR%/.gitignore file does not exist! Adding file...

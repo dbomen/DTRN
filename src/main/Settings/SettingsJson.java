@@ -27,30 +27,51 @@ public class SettingsJson {
         return notionAPIKey;
     }
 
+    public void setRun_once(int run_once) {
+        this.run_once = run_once;
+    }
+
+    public void setBlockIds(ArrayList<BlockId> blockIds) {
+        this.blockIds = blockIds;
+    }
+
+    public void setNotionAPIKey(String notionAPIKey) {
+        this.notionAPIKey = notionAPIKey;
+    }
+
     @Override
     public String toString() {
-        return "SettingsJson [run_once=" + run_once + ", blockIds=" + blockIds + ", notionAPIKey=" + notionAPIKey + "]";
+        return "{\"run_once\":" + run_once + ", \"blockIds\":" + blockIds + ", \"notionAPIKey\":" + notionAPIKey + "}";
     }
-}
 
-class BlockId {
+    public static class BlockId {
 
-    @SerializedName("id")
-    private String id;
+        @SerializedName("id")
+        private String id;
+        
+        @SerializedName("type")
+        private String type;
     
-    @SerializedName("type")
-    private String type;
+        public String getId() {
+            return id;
+        }
+    
+        public String getType() {
+            return type;
+        }
+    
+        public void setId(String id) {
+            this.id = id;
+        }
 
-    public String getId() {
-        return id;
-    }
+        public void setType(String type) {
+            this.type = type;
+        }
 
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public String toString() {
-        return "BlockId [id=" + id + ", type=" + type + "]";
+        @Override
+        public String toString() {
+            return "{\"id\":" + id + ", \"type\":" + type + "}";
+        }
     }
 }
+

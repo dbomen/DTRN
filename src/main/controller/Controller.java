@@ -9,13 +9,6 @@ import main.controller.commands.Command;
 import main.controller.commands.ErrorCommand;
 
 public class Controller {
-    
-    CommandRegistry commandRegistry;
-
-    public Controller() {
-
-        this.commandRegistry = new CommandRegistry();
-    }
 
     public void processInput(String input) {
 
@@ -29,8 +22,8 @@ public class Controller {
         String[] args = Arrays.copyOfRange(parts, 1, parts.length);
 
         // we execute the command with its arguments
-        Command command;
-        command = this.commandRegistry.getCommand(commandName);
+        CommandRegistry commandRegistry = new CommandRegistry();
+        Command command = commandRegistry.getCommand(commandName);
         
         try {
             command.execute(args);

@@ -26,7 +26,7 @@ public class HCommand implements Command {
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("COMMANDS:", ColorCodes.RED));
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("h", ColorCodes.RED) + " " + "shows the message you are seeing right now with all the commands");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("a <API_KEY>", ColorCodes.RED) + " " + "sets the Notion API_KEY that you can use ");
-        Command.displayBorderWithin(ansiColorStringHandler.getInColor("b <BLOCK_IDS_SEPERATED_BY_COMMAS>", ColorCodes.RED) + " " + "sets the Notion blockId or blockIds");
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("b <BLOCK_ID1> <TYPE1> <BLOCKID2> <TYPE2> <...>", ColorCodes.RED) + " " + "sets the Notion blockId or blockIds");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("s", ColorCodes.RED) + " " + "shows the current Notion API_KEY and the Notion blockId or blockIds");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("activate", ColorCodes.RED) + " " + "activates the Refresher program, which creates a task in the Windows task scheduler that runs the Refresher program every day or if the cycle is missed, it does so on PC startup");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("deactivate", ColorCodes.RED) + " " + "deactivates the Refresher program, which deletes the task from the Windows task scheduler");

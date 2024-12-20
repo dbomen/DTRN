@@ -8,18 +8,26 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import main.Reader;
+import main.Writer;
+import main.Settings.SettingsJson.BlockId;
+
 
 public class SettingsParser {
 
+    private static String DTRNSettings_FILE_PATH = "files/DTRNSettings.json";
+    
+    private Writer writer;
     private SettingsJson settingsJson;
 
     public SettingsParser() {
+
+        this.writer = new Writer();
 
         Reader reader = new Reader();
         String settingsJsonBody;
 
         try {
-            settingsJsonBody = reader.readJson("files/DTRNSettings.json");
+            settingsJsonBody = reader.readJson(DTRNSettings_FILE_PATH);
         } catch (IOException e) {
 
             StringWriter sw = new StringWriter();
@@ -32,6 +40,8 @@ public class SettingsParser {
         Gson gson = new Gson();
         this.settingsJson = gson.fromJson(settingsJsonBody, SettingsJson.class);
     }
+
+    // GET
 
     public boolean runOnce() {
 
@@ -46,5 +56,30 @@ public class SettingsParser {
     public String getNotionAPIKey() {
 
         return this.settingsJson.getNotionAPIKey();
+    }
+
+    // SET
+
+    private void writeSettingsJson() throws IOException {
+
+        writer.write(DTRNSettings_FILE_PATH, this.settingsJson.toString());
+    }
+
+    public void set_BLOCK_IDS(ArrayList<BlockId> BLOCK_IDS) throws IOException {
+
+        // sets the SettingsJson
+        this.settingsJson.setBlockIds(BLOCK_IDS);
+
+        // uses writeJson
+        writeSettingsJson();
+    }
+
+    public void set_NOTION_API_KEY(String NOTION_API) throws IOException {
+
+        // sets the SettingsJson
+        this.settingsJson.setNotionAPIKey(NOTION_API);
+
+        // uses writeJson
+        writeSettingsJson();
     }
 }
