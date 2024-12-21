@@ -12,7 +12,7 @@ public class Test {
         // we get the child_page blocks
         List<Block> childPageBlocks;
         try {
-            childPageBlocks = notionAPI.retrieveChild_PageBlocks();
+            childPageBlocks = notionAPI.retrieveChild_PageBlocks(1);
         } catch (Exception e) {
             e.printStackTrace();
             return;

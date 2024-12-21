@@ -10,4 +10,4 @@ call helperBatFiles/buildChecker.bat DTRN_SUPER_SECRET
 
 :: Run the DTRN class
 echo [Refresher] Running %DTRN_CLASS%...
-java -cp %BIN_DIR%;%CLASSPATH% %DTRN_CLASS%
+java -cp %BIN_DIR%;%CLASSPATH% %DTRN_CLASS% %1

@@ -28,14 +28,17 @@ public class NotionAPI {
     // ==================================================
     // GET
     /*
-     * for all the BLOCKIDS - we get the individual block
+     * for all the BLOCKIDS - we get the individual block. We get the ones matching the refresherType
      */
-    public List<NotionResponse.BlockListResponse.Block> retrieveChild_PageBlocks() throws Exception {
+    public List<NotionResponse.BlockListResponse.Block> retrieveChild_PageBlocks(int refresherType) throws Exception {
 
         List<NotionResponse.BlockListResponse.Block> responsesBlock = new ArrayList<>();
 
         // we iterate through all the BLOCK_IDS
         for (BlockId BLOCK_ID : this.settingsParser.getBlockIds()) {
+
+            // we check for matching refresherType
+            if (BLOCK_ID.getType() != refresherType)  continue;
 
             // sending the REQUEST and getting the RESPONSE
             HttpResponse<String> response;

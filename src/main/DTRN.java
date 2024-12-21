@@ -117,10 +117,19 @@ public class DTRN {
 
         NotionAPI notionAPI = new NotionAPI();
 
+        int refresherType;
+        try {
+
+            refresherType = Integer.parseInt(args[0]); // 1 - daily, 2 - weekly
+        } catch (Exception e) {
+
+            throw new RuntimeException("[DTRN] NO REFRESHER TYPE GIVEN!" + e);
+        }
+
         // we get the child_page blocks
         List<Block> child_pageBlocks;
         try {
-            child_pageBlocks = notionAPI.retrieveChild_PageBlocks();
+            child_pageBlocks = notionAPI.retrieveChild_PageBlocks(refresherType);
         } catch (Exception e) {
             e.printStackTrace();
             return;

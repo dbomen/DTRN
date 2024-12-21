@@ -50,13 +50,13 @@ public class SettingsJson {
         private String id;
         
         @SerializedName("type")
-        private String type;
+        private int type;
     
         public String getId() {
             return id;
         }
     
-        public String getType() {
+        public int getType() {
             return type;
         }
     
@@ -64,7 +64,7 @@ public class SettingsJson {
             this.id = id;
         }
 
-        public void setType(String type) {
+        public void setType(int type) {
             this.type = type;
         }
 
