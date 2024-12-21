@@ -15,6 +15,7 @@ if not "%1"=="am_admin" (
     exit /b
 )
 
-schtasks /delete /tn "DTRN Refresher" /f
+schtasks /delete /tn "DTRN Refresher_DAILY" /f
+schtasks /delete /tn "DTRN Refresher_WEEKLY" /f
 
 pause

@@ -25,6 +25,7 @@ if not "%1"=="am_admin" (
     exit /b
 )
 
-schtasks /create /tn "DTRN Refresher" /xml "%batchFilePath%/DTRN Refresher.xml"
+schtasks /create /tn "DTRN Refresher_DAILY" /xml "%batchFilePath%/DTRN_Refresher_Daily.xml"
+schtasks /create /tn "DTRN Refresher_WEEKLY" /xml "%batchFilePath%/DTRN_Refresher_Weekly.xml"
 
 pause

@@ -25,10 +25,10 @@ public class HCommand implements Command {
         Command.displayBorderWithin("");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("COMMANDS:", ColorCodes.RED));
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("h", ColorCodes.RED) + " " + "shows the message you are seeing right now with all the commands");
-        Command.displayBorderWithin(ansiColorStringHandler.getInColor("a <API_KEY>", ColorCodes.RED) + " " + "sets the Notion API_KEY that you can use ");
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("a <API_KEY>", ColorCodes.RED) + " " + "sets the Notion API_KEY that you can use");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("b <BLOCK_ID1> <TYPE1:{1,2}> <BLOCKID2> <TYPE2:{1,2}> <...>", ColorCodes.RED) + " " + "sets the Notion blockId or blockIds. 1: refresh daily, 2: refresh weekly");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("s", ColorCodes.RED) + " " + "shows the current Notion API_KEY and the Notion blockId or blockIds");
-        Command.displayBorderWithin(ansiColorStringHandler.getInColor("activate", ColorCodes.RED) + " " + "activates the Refresher program, which creates a task in the Windows task scheduler that runs the Refresher program every day or if the cycle is missed, it does so on PC startup");
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("activate", ColorCodes.RED) + " " + "activates the Refresher program, which creates 2 tasks in the Windows task scheduler (one for daily and weekly refreshed blocks) that run the Refresher program or if the cycle is missed, it does so on PC startup");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("deactivate", ColorCodes.RED) + " " + "deactivates the Refresher program, which deletes the task from the Windows task scheduler");
         Command.displayBorderWithin("");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("EXIT WITH: [CTRL+C and CTRL+C] or [CTRL+C and \"y\" and ENTER]", ColorCodes.RED));
