@@ -1,10 +1,12 @@
 package main;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import main.NotionResponse.BlockListResponse.Block;
+import main.Settings.SettingsParser;
 
 public class DTRN {
 
@@ -116,6 +118,7 @@ public class DTRN {
     public static void main(String[] args) {
 
         NotionAPI notionAPI = new NotionAPI();
+        boolean run_once = new SettingsParser().runOnce();
 
         int refresherType;
         try {
@@ -137,6 +140,21 @@ public class DTRN {
 
         // we iterate the child_page blocks
         for (Block child_pageBlock : child_pageBlocks) {
+            
+            // if we have run_once enabled => we check if this block was already refreshed
+            if (run_once) {
+
+                String title = child_pageBlock.getTitle().getTitleText();
+
+                int lastUpdatedDayOfMonth = title.charAt(title.length() - 1) - 'A'; // the # of the day is stored in printable-ascii
+                int todayDayOfMonth = LocalDate.now().getDayOfMonth();
+
+                // if they are the same days it has already been refreshed
+                // NOTE: This should work for both the daily and weekly refreshers.
+                // Edge case: the PC has not been opened in like 1 month, the days could be the same
+                // but im fine with that, it will refresh the next day / week
+                if (lastUpdatedDayOfMonth == todayDayOfMonth)  continue;
+            }
             
             // we get the childrenBlocks
             List<Block> childrenBlocks;
@@ -171,7 +189,7 @@ public class DTRN {
         }
         
         // if there was no match we return the default title
-        if (startingIndex == -1 || lastIndex == -1)  return title + " (" + numberOfUnchecks + ")";
+        if (startingIndex == -1 || lastIndex == -1)  return title + " (" + numberOfUnchecks + ")-" + (char)('A' + LocalDate.now().getDayOfMonth());
         else {
 
             int startingIndexForLong = startingIndex + 2;
@@ -180,7 +198,7 @@ public class DTRN {
             // else we parse the currentCounter and construct the new title
             long currentCounter = Long.parseLong(title.substring(startingIndexForLong, lastIndexForLong));
             long newCounter = currentCounter + numberOfUnchecks;
-            return title.substring(0, startingIndex) + " (" + newCounter + ")";
+            return title.substring(0, startingIndex) + " (" + newCounter + ")-" + (char)('A' + LocalDate.now().getDayOfMonth());
         }
     }
 }
