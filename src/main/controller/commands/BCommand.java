@@ -36,8 +36,8 @@ public class BCommand implements Command {
             for (int i = 0; i < args.length; i += 2) {
 
                 BlockId newBlockId = new BlockId();
-                newBlockId.setId(args[i + 1]);
-                newBlockId.setType(args[i]);
+                newBlockId.setId(args[i]);
+                newBlockId.setType(args[i + 1]);
 
                 newBlockIds.add(newBlockId);
             }
