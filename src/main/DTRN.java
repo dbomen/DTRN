@@ -1,6 +1,8 @@
 package main;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -139,7 +141,7 @@ public class DTRN {
         }
 
         // we iterate the child_page blocks
-        for (Block child_pageBlock : child_pageBlocks) {
+        blocks: for (Block child_pageBlock : child_pageBlocks) {
             
             // if we have run_once enabled => we check if this block was already refreshed
             if (run_once) {
@@ -153,7 +155,41 @@ public class DTRN {
                 // NOTE: This should work for both the daily and weekly refreshers.
                 // Edge case: the PC has not been opened in like 1 month, the days could be the same
                 // but im fine with that, it will refresh the next day / week
-                if (lastUpdatedDayOfMonth == todayDayOfMonth)  continue;
+                if (lastUpdatedDayOfMonth == todayDayOfMonth)  continue blocks;
+
+                // edge case: lets say we run the weekly refresher on Monday on PC1,
+                // we dont open PC2 on Monday. Then on Tuesday we open PC2, it runs the missed
+                // weekly refresher that should have been run on Monday, it will check if
+                // Monday == Tuesday => its not so it will refresh.
+                // We have 2x refreshing of the weekly refresher, but we only want 1x.
+                // This should not be a problem with daily refreshers
+                // ---
+                // FIX: If the refresherType==2, we check if the weekly refresher already refreshed
+                // the child_page block this week
+                if (refresherType == 2) {
+
+                    DayOfWeek todayDayOfWeek = LocalDate.now().getDayOfWeek();
+                    Month todayMonth = LocalDate.now().getMonth();
+    
+                    // we check if we already refreshed this week
+                    for (int sameWeekDay = DayOfWeek.MONDAY.getValue(); sameWeekDay < todayDayOfWeek.getValue(); sameWeekDay++) {
+    
+                        // we get the day of month for this day
+                        int sameWeekDay_DayOfMonth = todayDayOfMonth - (todayDayOfWeek.getValue() - sameWeekDay);
+
+                        // in case that day was in the previous month
+                        if (sameWeekDay_DayOfMonth < 1) {
+
+                            // we have to check which day that is in the previous month
+                            Month previousMonth = todayMonth.minus(1);
+
+                            sameWeekDay_DayOfMonth = previousMonth.length(LocalDate.now().isLeapYear()) + sameWeekDay_DayOfMonth;
+                        }
+
+                        // we check if we last updated on that day of month, if yes we skip the child_page
+                        if (lastUpdatedDayOfMonth == sameWeekDay_DayOfMonth)  continue blocks;
+                    }
+                }
             }
             
             // we get the childrenBlocks
