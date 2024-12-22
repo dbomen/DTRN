@@ -25,7 +25,14 @@ if not "%1"=="am_admin" (
     exit /b
 )
 
-schtasks /create /tn "DTRN Refresher_DAILY" /xml "%batchFilePath%/DTRN_Refresher_Daily.xml"
-schtasks /create /tn "DTRN Refresher_WEEKLY" /xml "%batchFilePath%/DTRN_Refresher_Weekly.xml"
+:: we correct the <Arguments> tag in the .xml documents, so that we have the right path to the refresher.bat
+set correctFilePath=%batchFilePath:~0,-1%
+set pathToXmls=%~dp0
+set pathToXmls=%pathToXmls:~0,-1%
+
+java -cp "%batchFilePath%src\bin" main.XML.XMLUpdater "%correctFilePath%" "%pathToXmls%"
+
+schtasks /create /tn "DTRN Refresher_DAILY" /xml "%batchFilePath%DTRN_Refresher_Daily.xml"
+schtasks /create /tn "DTRN Refresher_WEEKLY" /xml "%batchFilePath%DTRN_Refresher_Weekly.xml"
 
 pause
