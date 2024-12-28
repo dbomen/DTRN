@@ -21,7 +21,7 @@ public class HCommand implements Command {
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("1) You need to have a Notion API_KEY and the blockId (or multiple blockIds) that you want the Refresher program to refresh. Refer to the README.md file for specifics on how to get these", ColorCodes.BLUE));
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("2) You have to set your Notion API_KEY with the \"a\" command", ColorCodes.BLUE));
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("3) You have to set your Notion blockId or blockIds with the \"b\" command", ColorCodes.BLUE));
-        Command.displayBorderWithin(ansiColorStringHandler.getInColor("4) You have to activate the Refresher program, which just creates a task in the Windows task scheduler that runs the Refresher program everyday or if the cycle is missed, it does so on PC startup. You can use the \"activate\" command", ColorCodes.BLUE));
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("4) You have to activate the Refresher program, which creates 2 tasks in the Windows task scheduler (one for daily and weekly refreshed blocks) that run the Refresher program or if the cycle is missed, it does so on PC startup. You can use the \"activate\" command", ColorCodes.BLUE));
         Command.displayBorderWithin("");
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("COMMANDS:", ColorCodes.RED));
         Command.displayBorderWithin(ansiColorStringHandler.getInColor("h", ColorCodes.RED) + " " + "shows the message you are seeing right now with all the commands");
