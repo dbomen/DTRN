@@ -31,7 +31,7 @@ public class DeactivateCommand implements Command {
         }
 
         Command.displayBorderTop();
-        Command.displayBorderWithin(ansiColorStringHandler.getInColor("[CONTROLLER]", ColorCodes.RED) + " " + "REFRESHER DE-ACTIVATING! The script will run shortly, after that check the Windows Task Scheduler to make sure. The task with the name DTRN Refresher should not exist anymore");
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("[CONTROLLER]", ColorCodes.RED) + " " + "REFRESHER DE-ACTIVATING! The script will run shortly, after that check the Windows Task Scheduler to make sure. The tasks with the name DTRN Refresher_DAILY and DTRN Refresher_WEEKLY should not exist anymore");
         Command.displayBorderBottom();
     }
 }
