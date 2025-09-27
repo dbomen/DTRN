@@ -128,11 +128,15 @@ public class NotionAPI {
         HttpResponse<String> response;
         try {
             String url = this.NOTION_API_PREFIX_PAGES + childPageBlockId;
+            //System.out.println(url);
 
             HttpClient client = HttpClient.newHttpClient();
 
             // we build the jsonBody, to tell the API to change the title
-            String jsonBody = "{ \"properties\": { \"Name\": {\"title\": [{ \"text\": { \"content\": \"" + title + "\" } }] } } }";
+            Gson gson = new Gson();
+            String safeTitle = gson.toJson(title); // escaped string
+            String jsonBody = "{ \"properties\": { \"Name\": {\"title\": [{ \"text\": { \"content\": " + safeTitle + " } }] } } }";
+            //System.out.println(jsonBody);
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(url))
