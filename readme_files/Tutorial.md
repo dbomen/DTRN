@@ -1,3 +1,8 @@
+*linux:*
+```console
+$ chmod u+x controller.sh
+```
+
 # SETUP / INSTALLATION TUTORIAL
 This is a 6-step tutorial that explains how to install and set up the Refresher program.
 

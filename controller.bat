@@ -6,6 +6,6 @@ cd /d %~dp0
 call helperBatFiles/vars.bat DTRN_SUPER_SECRET
 call helperBatFiles/buildChecker.bat DTRN_SUPER_SECRET
 
-:: Run the DTRN class
+:: Run the CONTROLLER class
 echo [Controller] Running %CONTROLLER_CLASS%...
 java -cp %BIN_DIR%;%CLASSPATH% %CONTROLLER_CLASS%
