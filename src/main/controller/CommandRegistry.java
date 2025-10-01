@@ -8,6 +8,7 @@ import main.controller.commands.ActivateCommand;
 import main.controller.commands.BCommand;
 import main.controller.commands.Command;
 import main.controller.commands.DeactivateCommand;
+import main.controller.commands.ExitCommand;
 import main.controller.commands.HCommand;
 import main.controller.commands.InvalidCommand;
 import main.controller.commands.SCommand;
@@ -24,6 +25,7 @@ public class CommandRegistry {
         commandMap.put("b", new BCommand());
         commandMap.put("s", new SCommand());
         commandMap.put("u", new UCommand());
+        commandMap.put("exit", new ExitCommand());
         commandMap.put("activate", new ActivateCommand());
         commandMap.put("deactivate", new DeactivateCommand());
     }
