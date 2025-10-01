@@ -17,7 +17,6 @@ if "%1" neq "DTRN_SUPER_SECRET" (
 if not exist %FILES_DIR% (
     echo [BuilderChecker] /%FILES_DIR% directory does not exist! Adding directory...
     mkdir %FILES_DIR%
-    type nul > %FILES_DIR%/.gitignore
 )
 
 :: we check for files in /files
@@ -40,7 +39,6 @@ if not exist %FILES_DIR%/.gitignore (
 if not exist %LIBS_DIR% (
     echo [BuilderChecker] /%LIBS_DIR% directory does not exist! Adding directory...
     mkdir %LIBS_DIR%
-    type nul > %LIBS_DIR%/.gitignore
 )
 
 :: we check for dependecy files in /libs
