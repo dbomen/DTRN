@@ -43,7 +43,8 @@ public class UCommand implements Command {
         }
 
         Command.displayBorderTop();
-        Command.displayBorderWithin(ansiColorStringHandler.getInColor("[CONTROLLER]", ColorCodes.RED) + " " + "UPDATED and SWITCHED to master branch! For more specific use git yourself.");
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("[CONTROLLER]", ColorCodes.RED) + " " + "UPDATED and SWITCHED to master branch! For more specific use git yourself. Exiting...");
         Command.displayBorderBottom();
+        System.exit(0);
     }
 }

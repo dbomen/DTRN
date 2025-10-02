@@ -1,5 +1,16 @@
 # DTRN
-Updates or refreshes TODOs in Notion blocks.
+Updates or refreshes TODOs (checkboxes) in Notion blocks.
+
+> [!IMPORTANT]
+> 1.0.1 RELEASE COMPATIBILITY:
+> - ✅ **[TESTED]** Windows - all commands
+> - ✅ **[TESTED]** Linux (systemd) - all commands
+> - ⚠️ Linux (other) - `activate` and `deactivate` **do not work**
+> - ⚠️ MacOS - `activate` and `deactivate` **do not work**
+>
+> On systems where `activate` and `deactivate` are not supported, you must either:  
+> - manually run `./refresher.sh`, or  
+> - set up your own way to run the script automatically (e.g. `cron`, `launchd`, ...).
 
 **HEADERS:**
 - [INSTALLATION](#installation)
@@ -13,7 +24,7 @@ Updates or refreshes TODOs in Notion blocks.
 
 ## USAGE & TODO STRUCTURE
 > [!WARNING]
-> The Refresher program might not be run by Windows Task Scheduler if:
+> The Refresher program might not be run if:
 > 
 > - you do not have a network connection
 > - you have battery saver enabled (for laptop users)

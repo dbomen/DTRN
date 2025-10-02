@@ -10,8 +10,8 @@ source helperBatFiles/buildChecker.sh DTRN_SUPER_SECRET
 
 # check for git updates
 echo "[Controller] Checking for git project updates..."
-git fetch origin master
-COMMITS_AHEAD=$(git rev-list HEAD..origin/master --count)
+git fetch origin master 2>/dev/null
+COMMITS_AHEAD=$(git rev-list master..origin/master --count)
 if [ "$COMMITS_AHEAD" -gt 0 ]; then
     echo "[Controller] Update available! Run the 'u' command to update the master branch."
 else
