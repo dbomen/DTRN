@@ -13,6 +13,11 @@ if [[ $EUID -ne 0 ]]; then
   echo "This needs root. Re-run: sudo $0 DTRN_SUPER_SECRET"
   exit 1
 fi
+# Require systemd
+if ! pidof systemd >/dev/null; then
+  echo "You do not have systemd. You can run the ./refresher.sh script when you want to refresh your Notion blocks or use some other way to run this script automatically."
+  exit 1
+fi
 
 systemctl stop DTRN_Refresher_Daily.timer
 systemctl stop DTRN_Refresher_Daily.service

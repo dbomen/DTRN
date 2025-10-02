@@ -21,14 +21,18 @@ public class UCommand implements Command {
 
         try {
             String OS = System.getProperty("os.name").toLowerCase();
-            if (OS.indexOf("win") >= 0) new ProcessBuilder("./helperBatFiles/updateGit.bat", "DTRN_SUPER_SECRET")
+            if (OS.indexOf("win") >= 0) {
+                if (new ProcessBuilder("./helperBatFiles/updateGit.bat", "DTRN_SUPER_SECRET")
                 .inheritIO()
                 .start()
-                .waitFor();
-            else                        new ProcessBuilder("bash", "./helperBatFiles/updateGit.sh", "DTRN_SUPER_SECRET")
+                .waitFor() != 0)  throw new RuntimeException("SCRIPT ERROR");
+            }
+            else {
+                if (new ProcessBuilder("bash", "./helperBatFiles/updateGit.sh", "DTRN_SUPER_SECRET")
                 .inheritIO()
                 .start()
-                .waitFor();
+                .waitFor() != 0)  throw new RuntimeException("SCRIPT ERROR");
+            }
         } catch (Exception e) {
 
             StringWriter sw = new StringWriter();
