@@ -42,7 +42,7 @@ public class ActivateCommand implements Command {
         }
 
         Command.displayBorderTop();
-        Command.displayBorderWithin(ansiColorStringHandler.getInColor("[CONTROLLER]", ColorCodes.RED) + " " + "REFRESHER ACTIVATING! The script will run shortly, after that check the Windows Task Scheduler to make sure. The name of the tasks are DTRN Refresher_DAILY and DTRN Refresher_WEEKLY");
+        Command.displayBorderWithin(ansiColorStringHandler.getInColor("[CONTROLLER]", ColorCodes.RED) + " " + "REFRESHER ACTIVATING! The script will run shortly. Check the Windows Task Scheduler or systemd timers (systemctl list-timers | grep DTRN)");
         Command.displayBorderBottom();
     }
 }

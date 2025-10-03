@@ -19,9 +19,7 @@ if ! pidof systemd >/dev/null; then
   exit 1
 fi
 
-script_path=$(cd .. && pwd)
-script_path="${script_path}/refresher.sh"
-echo $script_path
+script_path="$(realpath refresher.sh)"
 
 cat << EOF > /etc/systemd/system/DTRN_Refresher_Daily.timer
 [Unit]
@@ -41,7 +39,7 @@ Description=DTRN Daily Refresher service
 [Service]
 Type=oneshot
 ExecStartPre=/bin/sleep 60
-ExecStart=${script_path}
+ExecStart=/bin/bash -lc '"${script_path}" 1'
 EOF
 
 cat << EOF > /etc/systemd/system/DTRN_Refresher_Weekly.timer
@@ -62,7 +60,7 @@ Description=DTRN Weekly Refresher service
 [Service]
 Type=oneshot
 ExecStartPre=/bin/sleep 60
-ExecStart=${script_path}
+ExecStart=/bin/bash -lc '"${script_path}" 2'
 EOF
 
 systemctl daemon-reload
