@@ -1,4 +1,8 @@
 # DTRN
+
+> [!IMPORTANT]
+> archived and not in active development
+
 Updates or refreshes TODOs (checkboxes) in Notion blocks.
 
 > [!IMPORTANT]
